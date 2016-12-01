@@ -50,7 +50,7 @@ public class Process {
                 List<List<String>> results = sparql.extract(default_model);
                 for(List<String> result : results){
                     String subject_lemma = result.get(1);
-                    if(t.contains(subject_lemma)){
+                    if(terms.contains(subject_lemma)){
                         lines.add(t+"\t"+subject_lemma+"\t"+result.get(0)+"\t"+result.get(2)+"\t"+result.get(3)+"\t"+sentence);
                     }
                 }
