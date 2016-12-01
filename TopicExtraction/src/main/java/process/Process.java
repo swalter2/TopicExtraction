@@ -34,7 +34,6 @@ public class Process {
         ReadIndex index = new ReadIndex(path_to_index);
         Sparql sparql = new Sparql();
         
-        List<String> lines = new ArrayList<>();
         for(String t : topics){
             t = t.toLowerCase();
             List<String> terms = new ArrayList<>();
@@ -48,16 +47,17 @@ public class Process {
                 Model default_model = ModelFactory.createDefaultModel();
                 RDF.convertSentenceToRDF(default_model,sentence);
                 List<List<String>> results = sparql.extract(default_model);
+                List<String> lines = new ArrayList<>();
                 for(List<String> result : results){
                     String subject_lemma = result.get(1);
                     if(t.contains(subject_lemma)){
                         lines.add(t+"\t"+subject_lemma+"\t"+result.get(0)+"\t"+result.get(2)+"\t"+result.get(3)+"\t"+sentence);
                     }
                 }
+                Files.write(Paths.get("topics.tsv"), lines, UTF_8, APPEND, CREATE);
                 
             }
         }
-        Files.write(Paths.get("topics.tsv"), lines, UTF_8, APPEND, CREATE);
         
     }
 }
